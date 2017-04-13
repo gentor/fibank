@@ -28,10 +28,11 @@ Gentor\Fibank\Facade\Fibank::class,
 Configuration
 -------------
 
-Convert .pfx certificate to .pem:
+Convert .jks certificate to .pem:
 
 ```php
-openssl pkcs12 -in <cert.pfx> -out <cert.pem> -passin pass:<password> -passout pass:<password>
+$cmd = "keytool -importkeystore -srckeystore " . escapeshellarg($file_path) . " -destkeystore " . escapeshellarg($p12file) . " -srcstoretype JKS -deststoretype PKCS12 -srcstorepass {$password} -deststorepass {$password} -noprompt";
+$cmd = "openssl pkcs12 -in " . escapeshellarg($p12file) . " -out " . escapeshellarg($pemfile) . " -passin pass:{$password} -passout pass:{$password}";
 ```
 
 Change your default settings in `app/config/fibank.php`:
