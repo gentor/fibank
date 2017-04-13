@@ -1,0 +1,29 @@
+{
+    "name": "gentor/fibank",
+    "description": "Fibank Ecomm Service for Laravel",
+    "keywords": [
+        "laravel",
+        "fibank",
+        "gateway",
+        "ecomm",
+        "payments",
+        "service"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Evgeni Nurkov",
+            "email": "evgeni.nurkov@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">= 5.6",
+        "illuminate/support": "4.2.*|5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gentor\\Fibank\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
