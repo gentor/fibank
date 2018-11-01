@@ -17,6 +17,7 @@ class Ecomm
     protected $certificate_pem;
     protected $certificate_pass;
     protected $ip;
+    protected $connect_timeout;
     protected $currency = 975; // BGN
 
     /**
@@ -41,6 +42,14 @@ class Ecomm
     public function setIp($ip)
     {
         $this->ip = $ip;
+    }
+
+    /**
+     * @param $seconds
+     */
+    public function setConnectTimeout($seconds)
+    {
+        $this->connect_timeout = $seconds;
     }
 
     /**
@@ -113,6 +122,7 @@ class Ecomm
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->connect_timeout ?: 0);
 
         $result = curl_exec($ch);
         fclose($tempPemFile);
