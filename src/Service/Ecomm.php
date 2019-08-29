@@ -56,6 +56,7 @@ class Ecomm
      * @param $amount
      * @param $description
      * @return array
+     * @throws EcommException
      */
     public function sendTransaction($amount, $description)
     {
@@ -72,7 +73,26 @@ class Ecomm
 
     /**
      * @param $trans_id
+     * @param null $amount
      * @return array
+     * @throws EcommException
+     */
+    public function refundTransaction($trans_id, $amount = null)
+    {
+        $params = [
+            'command' => 'k',
+            'trans_id' => $trans_id,
+            'amount' => $amount,
+            'client_ip_addr' => $this->ip,
+        ];
+
+        return $this->sendRequest($params);
+    }
+
+    /**
+     * @param $trans_id
+     * @return array
+     * @throws EcommException
      */
     public function checkTransactionStatus($trans_id)
     {
