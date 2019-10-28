@@ -140,9 +140,13 @@ class Ecomm
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_NOPROGRESS, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->connect_timeout ?: 0);
+        if ($this->endpoint == self::SANDBOX_URL) {
+            curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . '/test.pem');
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        }
 
         $result = curl_exec($ch);
         fclose($tempPemFile);
