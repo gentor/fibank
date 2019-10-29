@@ -18,6 +18,7 @@ class Ecomm
     protected $certificate_pass;
     protected $ip;
     protected $connect_timeout;
+    protected $ssl_verify = true;
     protected $currency = 975; // BGN
 
     /**
@@ -30,6 +31,10 @@ class Ecomm
             $this->endpoint = static::LIVE_URL;
         } else {
             $this->endpoint = static::SANDBOX_URL;
+        }
+
+        if (isset($config['ssl_verify'])) {
+            $this->ssl_verify = $config['ssl_verify'];
         }
 
         $this->certificate_pem = $config['certificate'];
@@ -133,6 +138,12 @@ class Ecomm
         curl_setopt($ch, CURLOPT_SSLCERT, $tempPemPath);
         curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->certificate_pass);
 
+        if ($this->endpoint == self::SANDBOX_URL) {
+            curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . '/ca/test.pem');
+        } else {
+            curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . '/ca/live.pem');
+        }
+
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_VERBOSE, 0);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -140,13 +151,9 @@ class Ecomm
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_NOPROGRESS, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->ssl_verify);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->connect_timeout ?: 0);
-        if ($this->endpoint == self::SANDBOX_URL) {
-            curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . '/test.pem');
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        }
 
         $result = curl_exec($ch);
         fclose($tempPemFile);
