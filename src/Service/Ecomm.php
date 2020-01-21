@@ -11,7 +11,7 @@ class Ecomm
 {
     const SANDBOX_URL = 'https://mdpay-test.fibank.bg';
     const LIVE_URL = 'https://mdpay.fibank.bg';
-    const PORT = '9443';
+    const PORT = '10443';
 
     protected $endpoint;
     protected $certificate_pem;
@@ -116,7 +116,7 @@ class Ecomm
      */
     public function getRedirectUrl($trans_id)
     {
-        return $this->endpoint . '/ecomm/ClientHandler?trans_id=' . urlencode($trans_id);
+        return $this->endpoint . '/ecomm_v2/ClientHandler?trans_id=' . urlencode($trans_id);
     }
 
     /**
@@ -126,7 +126,7 @@ class Ecomm
      */
     protected function sendRequest($params)
     {
-        $url = $this->endpoint . ':' . static::PORT . '/ecomm/MerchantHandler';
+        $url = $this->endpoint . ':' . static::PORT . '/ecomm_v2/MerchantHandler';
 
         $ch = curl_init();
 
