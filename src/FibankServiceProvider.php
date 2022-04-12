@@ -7,11 +7,11 @@ use Illuminate\Support\ServiceProvider;
 use Gentor\Fibank\Service\Ecomm;
 
 /**
- * Class ServiceProvider
+ * Class FibankServiceProvider
  *
  * @package Gentor\Fibank
  */
-class BnpServiceProvider extends ServiceProvider
+class FibankServiceProvider extends ServiceProvider
 {
 
     /**
