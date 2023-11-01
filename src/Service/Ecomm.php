@@ -60,18 +60,19 @@ class Ecomm
     /**
      * @param $amount
      * @param $description
+     * @param array $additionalParams
      * @return array
      * @throws EcommException
      */
-    public function sendTransaction($amount, $description)
+    public function sendTransaction($amount, $description, $additionalParams = [])
     {
-        $params = [
+        $params = array_merge([
             'command' => 'v',
             'amount' => $amount,
             'currency' => $this->currency,
             'client_ip_addr' => $this->ip,
             'description' => $description,
-        ];
+        ], $additionalParams);
 
         return $this->sendRequest($params);
     }
