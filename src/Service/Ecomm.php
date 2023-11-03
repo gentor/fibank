@@ -80,33 +80,35 @@ class Ecomm
     /**
      * @param $trans_id
      * @param null $amount
+     * @param array $additionalParams
      * @return array
      * @throws EcommException
      */
-    public function refundTransaction($trans_id, $amount = null)
+    public function refundTransaction($trans_id, $amount = null, $additionalParams = [])
     {
-        $params = [
+        $params = array_merge([
             'command' => 'k',
             'trans_id' => $trans_id,
             'amount' => $amount,
             'client_ip_addr' => $this->ip,
-        ];
+        ], $additionalParams);
 
         return $this->sendRequest($params);
     }
 
     /**
      * @param $trans_id
+     * @param array $additionalParams
      * @return array
      * @throws EcommException
      */
-    public function checkTransactionStatus($trans_id)
+    public function checkTransactionStatus($trans_id, $additionalParams = [])
     {
-        $params = [
+        $params = array_merge([
             'command' => 'c',
             'trans_id' => $trans_id,
             'client_ip_addr' => $this->ip,
-        ];
+        ], $additionalParams);
 
         return $this->sendRequest($params);
     }
